@@ -2,21 +2,23 @@ use macroquad::prelude as mqd;
 
 pub(crate) fn window_config() -> mqd::Conf {
     mqd::Conf {
+        platform: Default::default(),
         window_title: String::from("DVD"),
         window_width: 800,
         window_height: 800,
         high_dpi: true,
+        fullscreen: false,
         sample_count: 8,
         window_resizable: false,
-        fullscreen: true,
         icon: None,
     }
 }
 
 #[macroquad::main(window_config)]
 async fn main() {
-    let dvd_logo_data = include_bytes!("../resources/dvd.png");
-    let dvd_logo = mqd::Texture2D::from_file_with_format(dvd_logo_data, None);
+    let dvd_logo_data = include_bytes!("../dvd.png");
+    let dvd_logo =
+        mqd::Texture2D::from_file_with_format(dvd_logo_data, Some(mqd::ImageFormat::Png));
     dvd_logo.set_filter(mqd::FilterMode::Nearest);
 
     let mut color_counter = 0;
@@ -41,6 +43,7 @@ async fn main() {
         // SPASM
         if spamming {
             color_counter += 1;
+            color_counter = color_counter % 5;
         }
 
         // Update logic
@@ -62,7 +65,7 @@ async fn main() {
         }
 
         // Draw
-        let color = match color_counter % 5 {
+        let color = match color_counter {
             0 => mqd::RED,
             1 => mqd::GREEN,
             2 => mqd::WHITE,

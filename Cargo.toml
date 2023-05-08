@@ -9,4 +9,5 @@ edition = "2021"
 macroquad = "*"
 
 [profile.dev.package.'*']
-opt-level = 3
+opt-level = "z"
+strip = "symbols"
