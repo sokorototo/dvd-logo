@@ -19,7 +19,7 @@ async fn main() {
     let dvd_logo_data = include_bytes!("../dvd.png");
     let dvd_logo =
         mqd::Texture2D::from_file_with_format(dvd_logo_data, Some(mqd::ImageFormat::Png));
-    dvd_logo.set_filter(mqd::FilterMode::Nearest);
+    dvd_logo.set_filter(mqd::FilterMode::Linear);
 
     let mut color_counter = 0;
     let mut spamming = false;
@@ -43,7 +43,7 @@ async fn main() {
         // SPASM
         if spamming {
             color_counter += 1;
-            color_counter = color_counter % 5;
+            color_counter %= 5;
         }
 
         // Update logic
@@ -78,7 +78,7 @@ async fn main() {
         };
 
         mqd::draw_texture_ex(
-            dvd_logo,
+            &dvd_logo,
             texture_position.0,
             texture_position.1,
             color,
